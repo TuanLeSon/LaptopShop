@@ -7,12 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LaptopshopApplication {
 
 	public static void main(String[] args) {
-		// container
-		// ApplicationContext hoidanit =
+
 		SpringApplication.run(LaptopshopApplication.class, args);
-		// for (String s : hoidanit.getBeanDefinitionNames()) {
-		// System.out.println(s);// print beans what java manages
-		// }
+
 	}
 
 }
