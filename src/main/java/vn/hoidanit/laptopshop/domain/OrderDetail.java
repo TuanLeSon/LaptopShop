@@ -6,25 +6,23 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.List;
 
 @Entity
-@Table(name = "orders")
-public class Order {
+@Table(name = "order_detail")
+public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    private double totalPrice;
+    private long quantity;
+    private double price;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToMany(mappedBy = "order")
-    List<OrderDetail> orderDetails;
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     public long getId() {
         return id;
@@ -34,17 +32,20 @@ public class Order {
         this.id = id;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public long getQuantity() {
+        return quantity;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 
-    @Override
-    public String toString() {
-        return "Order [id=" + id + ", totalPrice=" + totalPrice + "]";
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
 }
