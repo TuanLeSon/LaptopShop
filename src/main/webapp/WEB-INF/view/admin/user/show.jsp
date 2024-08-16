@@ -31,9 +31,8 @@
                   <div class="row">
                     <div class="col-12 mx-auto">
                       <div class="d-flex justify-content-between">
-
                         <h3 class="mt-4">User Information</h3>
-                        <a href="/admin/user/create" class="btn btn-primary">Create User</a>
+                        <a href="/admin/user/create" class="mt-4 btn btn-primary">Create A User</a>
                       </div>
 
                       <hr />
@@ -43,6 +42,7 @@
                             <th scope="col">ID</th>
                             <th scope="col">Email</th>
                             <th scope="col">Full Name</th>
+                            <th>Role</th>
                             <th scope="col">Action</th>
                           </tr>
                         </thead>
@@ -51,6 +51,7 @@
                             <tr>
                               <th>${user.id}</th>
                               <td>${user.email}</td>
+                              <td>${user.role.name}</td>
                               <td>${user.fullName}</td>
                               <td>
                                 <a href="/admin/user/${user.id}" class="btn btn-success">View</a>
