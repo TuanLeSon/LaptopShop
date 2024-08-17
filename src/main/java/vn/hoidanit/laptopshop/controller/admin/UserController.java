@@ -2,7 +2,6 @@ package vn.hoidanit.laptopshop.controller.admin;
 
 import java.util.List;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,15 +32,16 @@ public class UserController {
 
     }
 
-    @GetMapping("/")
-    public String getHomePage(Model model) {
-        List<User> arrUsers = this.userService.getAllUsersByEmail("lesontuanvp@gmail.com");
-        System.out.println(arrUsers);
-        String test = this.userService.handleHello();
-        model.addAttribute("eric", "test");
-        model.addAttribute("hoidanit", "from controller with model");
-        return "hello";
-    }
+    // @GetMapping("/")
+    // public String getHomePage(Model model) {
+    // List<User> arrUsers =
+    // this.userService.getAllUsersByEmail("lesontuanvp@gmail.com");
+    // System.out.println(arrUsers);
+    // String test = this.userService.handleHello();
+    // model.addAttribute("eric", "test");
+    // model.addAttribute("hoidanit", "from controller with model");
+    // return "hello";
+    // }
 
     @GetMapping("/admin/user")
     public String getUserPage(Model model) {
@@ -90,12 +90,18 @@ public class UserController {
     }
 
     @PostMapping(value = "/admin/user/update")
-    public String postUpdateUser(Model model, @ModelAttribute("newUser") User hoidanit) {
+    public String postUpdateUser(Model model, @ModelAttribute("newUser") User hoidanit,
+            @RequestParam("hoidanitFile") MultipartFile file) {
         User currentUser = this.userService.getUserById(hoidanit.getId());
         if (currentUser != null) {
+
             currentUser.setAddress(hoidanit.getAddress());
             currentUser.setFullName(hoidanit.getFullName());
             currentUser.setPhone(hoidanit.getPhone());
+
+            String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+            currentUser.setAvatar(avatar);
+            currentUser.setRole(this.userService.getRoleByName(hoidanit.getRole().getName()));
             this.userService.handleSaveUser(currentUser);
         }
 
