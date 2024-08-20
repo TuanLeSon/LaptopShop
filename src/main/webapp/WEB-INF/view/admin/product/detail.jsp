@@ -13,6 +13,8 @@
                 <title>Dashboard - Hỏi Dân IT</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
             </head>
 
             <body class="sb-nav-fixed">
@@ -26,7 +28,8 @@
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item active"><a href="/admin">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Products</li>
+                                    <li class="breadcrumb-item active"><a href="/admin/product">Products</a></li>
+                                    <li class="breadcrumb-item active">Detail</li>
                                 </ol>
                                 <div class="container mt-5">
                                     <div class="row">
@@ -37,16 +40,24 @@
                                             </div>
 
                                             <hr />
+
                                             <div class="card" style="width: 60%;">
+                                                <img class="card-img-top" src="/images/product/${product.image}"
+                                                    alt="Card image cap" />
                                                 <div class="card-header">
                                                     Product information
                                                 </div>
                                                 <ul class="list-group list-group-flush">
                                                     <li class="list-group-item">ID: ${product.id}</li>
-                                                    <li class="list-group-item">Email: ${product.email}</li>
-                                                    <li class="list-group-item">Full Name: ${product.fullName}</li>
-                                                    <li class="list-group-item">Address: ${product.address}</li>
-                                                    <li class="list-group-item">Role: ${product.role.name}</li>
+                                                    <li class="list-group-item">Name: ${product.name}</li>
+                                                    <li class="list-group-item">Price: ${product.price}</li>
+                                                    <li class="list-group-item">Detail description:
+                                                        ${product.detailDesc}</li>
+                                                    <li class="list-group-item">Short description: ${product.shortDesc}
+                                                    </li>
+                                                    <li class="list-group-item">Quantity: ${product.quantity}</li>
+                                                    <li class="list-group-item">Factory: ${product.factory}</li>
+                                                    <li class="list-group-item">Target: ${product.target}</li>
                                                 </ul>
                                             </div>
 

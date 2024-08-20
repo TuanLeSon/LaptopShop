@@ -5,6 +5,7 @@ import java.util.*;
 
 import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
 import vn.hoidanit.laptopshop.repository.RoleRepository;
 import vn.hoidanit.laptopshop.repository.UserRepository;
 
@@ -35,8 +36,8 @@ public class UserService {
     }
 
     public User handleSaveUser(User user) {
-        User eric = this.userRepository.save(user);// trả kết quả thành công từ database về
-        return eric;
+        return this.userRepository.save(user);// trả kết quả thành công từ database về
+
     }
 
     public void deleteAUser(long id) {
@@ -45,5 +46,13 @@ public class UserService {
 
     public Role getRoleByName(String name) {
         return this.roleRepository.findByName(name);
+    }
+
+    public User registerDTOtoUser(RegisterDTO registerDTO) {
+        User user = new User();
+        user.setFullName(registerDTO.getFirstName() + " " + registerDTO.getLastName());
+        user.setEmail(registerDTO.getEmail());
+        user.setPassword(registerDTO.getPassword());
+        return user;
     }
 }

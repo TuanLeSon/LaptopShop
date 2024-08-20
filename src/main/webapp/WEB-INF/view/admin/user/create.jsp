@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
       <!DOCTYPE html>
       <html lang="en">
 
@@ -37,7 +38,8 @@
                 <h1 class="mt-4">Dashboard</h1>
                 <ol class="breadcrumb mb-4">
                   <li class="breadcrumb-item active"><a href="/admin">Dashboard</a></li>
-                  <li class="breadcrumb-item active">Users</li>
+                  <li class="breadcrumb-item active"><a href="/admin/user">Users</a></li>
+                  <li class="breadcrumb-item active">Create</li>
                 </ol>
                 <div class="mt-5">
                   <div class="row">
@@ -50,24 +52,39 @@
                       <div>create user</div> -->
                       </div>
                       <hr />
-                      <form:form method="post" enctype="multipart/form-data" action="/admin/user/create"
-                        modelAttribute="newUser" class="row">
-
-                        <div class="mb-3 col-md-6 col-12">
+                      <form:form method="post" action="/admin/user/create" modelAttribute="newUser" class="row"
+                        enctype="multipart/form-data">
+                        <div class="mb-3 col-12 col-md-6">
+                          <c:set var="errorEmail">
+                            <form:errors path="email" cssClass="invalid-feedback" />
+                          </c:set>
                           <label class="form-label">Email:</label>
-                          <form:input type="email" class="form-control" path="email" />
+                          <form:input type="email" class="form-control ${not empty errorEmail ? 'is-invalid' : ''}"
+                            path="email" />
+                          ${errorEmail}
                         </div>
-                        <div class="mb-3 col-md-6 col-12">
+                        <div class="mb-3 col-12 col-md-6">
+                          <c:set var="errorPassword">
+                            <form:errors path="password" cssClass="invalid-feedback" />
+                          </c:set>
                           <label class="form-label">Password:</label>
-                          <form:input type="password" class="form-control" path="password" />
+                          <form:input type="password"
+                            class="form-control ${not empty errorPassword ? 'is-invalid' : ''}" path="password" />
+                          ${errorPassword}
+
                         </div>
-                        <div class="mb-3 col-md-6 col-12">
+                        <div class="mb-3 col-12 col-md-6">
                           <label class="form-label">Phone number:</label>
                           <form:input type="text" class="form-control" path="phone" />
                         </div>
-                        <div class="mb-3 col-md-6 col-12">
+                        <div class="mb-3 col-12 col-md-6">
+                          <c:set var="errorFullName">
+                            <form:errors path="fullName" cssClass="invalid-feedback" />
+                          </c:set>
                           <label class="form-label">Full Name:</label>
-                          <form:input type="text" class="form-control" path="fullName" />
+                          <form:input type="text" class="form-control ${not empty errorFullName ? 'is-invalid' : ''}"
+                            path="fullName" />
+                          ${errorFullName}
                         </div>
                         <div class="mb-3">
                           <label class="form-label">Address:</label>
@@ -82,7 +99,7 @@
                         </div>
                         <div class="mb-3 col-md-6 col-12">
                           <label for="avatarFile" class="form-label">Avatar:</label>
-                          <input class="form-control" type="file" id="avatarFile" name="hoidanitFile"
+                          <input class="form-control" type="file" id="avatarFile" name="userFile"
                             accept=".png, .jsp, .jpeg" />
                         </div>
                         <div class="col-12 mb-3">

@@ -35,17 +35,6 @@ public class UserController {
 
     }
 
-    // @GetMapping("/")
-    // public String getHomePage(Model model) {
-    // List<User> arrUsers =
-    // this.userService.getAllUsersByEmail("lesontuanvp@gmail.com");
-    // System.out.println(arrUsers);
-    // String test = this.userService.handleHello();
-    // model.addAttribute("eric", "test");
-    // model.addAttribute("hoidanit", "from controller with model");
-    // return "hello";
-    // }
-
     @GetMapping("/admin/user")
     public String getUserPage(Model model) {
         List<User> users = this.userService.getAllUsers();
@@ -57,7 +46,6 @@ public class UserController {
     public String getUserDetailPage(Model model, @PathVariable long id) {
         User user = this.userService.getUserById(id);
         model.addAttribute("user", user);
-
         return "admin/user/detail";
     }
 
@@ -70,12 +58,15 @@ public class UserController {
     @PostMapping("/admin/user/create")
     public String createUserPage(Model model,
             @ModelAttribute("newUser") @Valid User hoidanit,
-            BindingResult bindingResult,
-            @RequestParam("hoidanitFile") MultipartFile file) {
+            BindingResult newUserBindingResult,
+            @RequestParam("userFile") MultipartFile file) {
         // Validate
-        List<FieldError> errors = bindingResult.getFieldErrors();
+        List<FieldError> errors = newUserBindingResult.getFieldErrors();
         for (FieldError error : errors) {
-            System.out.println(error.getObjectName() + " - " + error.getDefaultMessage());
+            System.out.println(error.getField() + " - " + error.getDefaultMessage());
+        }
+        if (newUserBindingResult.hasErrors()) {
+            return "/admin/user/create";
         }
         // relative path: absolute path
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
@@ -100,7 +91,7 @@ public class UserController {
 
     @PostMapping(value = "/admin/user/update")
     public String postUpdateUser(Model model, @ModelAttribute("newUser") User hoidanit,
-            @RequestParam("hoidanitFile") MultipartFile file) {
+            @RequestParam("userFile") MultipartFile file) {
         User currentUser = this.userService.getUserById(hoidanit.getId());
         if (currentUser != null) {
 
@@ -111,6 +102,7 @@ public class UserController {
             String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
             currentUser.setAvatar(avatar);
             currentUser.setRole(this.userService.getRoleByName(hoidanit.getRole().getName()));
+
             this.userService.handleSaveUser(currentUser);
         }
 

@@ -10,14 +10,20 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="description" content="Hỏi Dân IT - Dự án laptopshop" />
                 <meta name="author" content="Hỏi Dân IT" />
-                <title>Dashboard - Hỏi Dân IT</title>
+                <title>Update - Hỏi Dân IT</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
                 <script>
                     $(document).ready(() => {
+
                         const avatarFile = $("#avatarFile");
+                        const orgImage = "${newProduct.image}"
+                        if (orgImage) {
+                            const urlImage = "/images/product/" + orgImage;
+                            $("#avatarPreview").attr("src", urlImage);
+                            $("#avatarPreview").css({ "display": "block" });
+                        }
                         avatarFile.change(function (e) {
                             const imgURL = URL.createObjectURL(e.target.files[0]);
                             $("#avatarPreview").attr("src", imgURL);
@@ -34,26 +40,26 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Products</h1>
+                                <h1 class="mt-4">Manage Products</h1>
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item active"><a href="/admin">Dashboard</a></li>
                                     <li class="breadcrumb-item active"><a href="/admin/product">Products</a></li>
-                                    <li class="breadcrumb-item active">Create</li>
+                                    <li class="breadcrumb-item active">Update</li>
                                 </ol>
-                                <div class="mt-5">
+                                <div class="container mt-5">
                                     <div class="row">
                                         <div class="col-12 mx-auto">
                                             <div class="d-flex justify-content-between">
-
-                                                <h1 class="mt-4">Create a product</h1>
-
-                                                <!-- 
-                      <div>create user</div> -->
+                                                <h1 class="mt-4">Update product</h1>
                                             </div>
+
                                             <hr />
                                             <form:form method="post" enctype="multipart/form-data"
                                                 action="/admin/product/create" modelAttribute="newProduct" class="row">
-
+                                                <div class="mb-3" style="display: none;">
+                                                    <label class="form-label">Id:</label>
+                                                    <form:input type="number" class="form-control" path="id" />
+                                                </div>
                                                 <div class="mb-3 col-md-6 col-12">
                                                     <c:set var="errorName">
                                                         <form:errors path="name" cssClass="invalid-feedback" />
@@ -130,13 +136,16 @@
                                                 </div>
 
                                                 <div class="mb-3 col-md-6 col-12">
-                                                    <label for="avatarFile" class="form-label">Image:</label>
+                                                    <label for="imageFile" class="form-label">Image:</label>
                                                     <input class="form-control" type="file" id="avatarFile"
                                                         name="productFile" accept=".png, .jsp, .jpeg" />
                                                 </div>
                                                 <div class="col-12 mb-3">
                                                     <img style="max-height: 250px; display:none;" alt="avatar preview"
                                                         id="avatarPreview" />
+                                                    <!-- <img src="/images/product/${newProduct.image}"
+                                                        style="max-height: 250px; display: block;" alt="avatar preview"
+                                                        id="avatarPreview1" /> -->
                                                 </div>
                                                 <div class="col-12 mb-5">
                                                     <button type="submit" class="btn btn-primary">Create</button>

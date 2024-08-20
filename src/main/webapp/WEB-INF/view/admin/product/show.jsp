@@ -22,7 +22,7 @@
                 <div id="layoutSidenav_content">
                     <main>
                         <div class="container-fluid px-4">
-                            <h1 class="mt-4">Dashboard</h1>
+                            <h1 class="mt-4">Manage products</h1>
                             <ol class="breadcrumb mb-4">
                                 <li class="breadcrumb-item active"><a href="/admin">Dashboard</a></li>
                                 <li class="breadcrumb-item active">Products</li>
@@ -48,7 +48,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <c:forEach var="product" items="${products1}">
+                                                <c:forEach var="product" items="${products}">
                                                     <tr>
                                                         <th>${product.id}</th>
                                                         <td>${product.name}</td>
