@@ -10,7 +10,7 @@
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                     <meta name="description" content="" />
                     <meta name="author" content="" />
-                    <title>Register - SB Admin</title>
+                    <title>Register - Laptopshop</title>
                     <link href="/css/styles.css" rel="stylesheet" />
                     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
                         crossorigin="anonymous"></script>
@@ -30,13 +30,27 @@
                                                 <div class="card-body">
                                                     <form:form method="post" action="/register"
                                                         modelAttribute="registerUser">
+                                                        <!-- đặt tên biến -->
+                                                        <c:set var="errorPassword">
+                                                            <form:errors path="confirmPassword"
+                                                                cssClass="invalid-feedback" />
+                                                        </c:set>
+                                                        <c:set var="errorEmail">
+                                                            <form:errors path="email" cssClass="invalid-feedback" />
+                                                        </c:set>
+                                                        <c:set var="errorFirstName">
+                                                            <form:errors path="firstName" cssClass="invalid-feedback" />
+                                                        </c:set>
                                                         <div class="row mb-3">
                                                             <div class="col-md-6">
                                                                 <div class="form-floating mb-3 mb-md-0">
-                                                                    <form:input class="form-control" id="inputFirstName"
-                                                                        type="text" placeholder="Enter your first name"
+                                                                    <form:input
+                                                                        class="form-control ${not empty errorFirstName ? 'is-invalid' : ''}"
+                                                                        id="inputFirstName" type="text"
+                                                                        placeholder="Enter your first name"
                                                                         path="firstName" />
                                                                     <label for="inputFirstName">First name</label>
+                                                                    ${errorFirstName}
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
@@ -49,18 +63,24 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-floating mb-3">
-                                                            <form:input class="form-control" id="inputEmail"
-                                                                type="email" placeholder="name@example.com"
-                                                                path="email" />
+                                                            <form:input
+                                                                class="form-control ${not empty errorEmail ? 'is-invalid' : ''}"
+                                                                id="inputEmail" type="email"
+                                                                placeholder="name@example.com" path="email" />
                                                             <label for="inputEmail">Email address</label>
+                                                            ${errorEmail}
                                                         </div>
                                                         <div class="row mb-3">
                                                             <div class="col-md-6">
                                                                 <div class="form-floating mb-3 mb-md-0">
-                                                                    <form:input class="form-control" id="inputPassword"
-                                                                        type="password" placeholder="Create a password"
+                                                                    <form:input
+                                                                        class="form-control ${not empty errorPassword ? 'is-invalid' : ''}"
+                                                                        id="inputPassword" type="password"
+                                                                        placeholder="Create a password"
                                                                         path="password" />
                                                                     <label for="inputPassword">Password</label>
+                                                                    <!-- truyền vào thuộc tính mà bạn muốn báo lỗi -->
+                                                                    ${errorPassword}
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
@@ -75,9 +95,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="mt-4 mb-0">
-                                                            <button type="submit"
-                                                                class="d-grid btn btn-primary btn-block">Create
-                                                                Account</button>
+                                                            <div class="d-grid">
+                                                                <button class="btn btn-primary">Create Account</button>
+                                                            </div>
                                                         </div>
                                                     </form:form>
                                                 </div>

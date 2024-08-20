@@ -24,14 +24,13 @@ public class User {
     private long id;
 
     @Email(message = "Email không hợp lệ")
-    @NotEmpty(message = "Email không được để trống")
     private String email;
     @NotNull
     @Size(min = 3, message = "Password phải có tối thiểu 3 ký tự")
     @StrongPassword(message = "Password phải có 8 ký tự, viết hoa...")
     private String password;
     @NotNull
-    @Size(min = 2, message = "Fullname phải có tối thiểu 3 ký tự")
+    @Size(min = 3, message = "Fullname phải có tối thiểu 3 ký tự")
     private String fullName;
 
     private String address;
