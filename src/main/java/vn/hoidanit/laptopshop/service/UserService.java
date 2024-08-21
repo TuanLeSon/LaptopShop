@@ -31,9 +31,9 @@ public class UserService {
         return this.userRepository.findById(id);
     }
 
-    public List<User> getAllUsersByEmail(String email) {
-        return this.userRepository.findByEmail(email);
-    }
+    // public List<User> getAllUsersByEmail(String email) {
+    // return this.userRepository.findByEmail(email);
+    // }
 
     public User handleSaveUser(User user) {
         return this.userRepository.save(user);// trả kết quả thành công từ database về
@@ -58,5 +58,9 @@ public class UserService {
 
     public boolean checkEmailExists(String email) {
         return this.userRepository.existsByEmail(email);
+    }
+
+    public User getUserByEmail(String email) {
+        return this.userRepository.findByEmail(email);
     }
 }

@@ -11,8 +11,8 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     User save(User hoidanit);
 
-    // insert into user value()
-    List<User> findByEmail(String email);
+    // chỉ trả về 1 user
+    User findByEmail(String email);
 
     List<User> findAll();
 
