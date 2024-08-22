@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 user.getPassword(),
                 // tạo array chỉ có 1 phần tử
                 // SimpleGrantedAuthority sẽ gán role
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName())));
 
     }
 

@@ -54,7 +54,7 @@ public class ProductController {
             System.out.println(error.getField() + " - " + error.getDefaultMessage());
         }
         if (newProductBindingResult.hasErrors()) {
-            return "/admin/product/create";
+            return "admin/product/create";
         }
         // relative path: absolute path
         String image = this.uploadService.handleSaveUploadFile(file, "product");
@@ -109,7 +109,7 @@ public class ProductController {
     public String getDeleteProductPage(Model model, @PathVariable long id) {
         model.addAttribute("id", id);
         model.addAttribute("newProduct", new Product());
-        return "/admin/product/delete";
+        return "admin/product/delete";
     }
 
     @PostMapping("/admin/product/delete") // GET

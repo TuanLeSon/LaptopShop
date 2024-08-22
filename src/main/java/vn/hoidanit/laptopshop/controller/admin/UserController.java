@@ -66,7 +66,7 @@ public class UserController {
             System.out.println(error.getField() + " - " + error.getDefaultMessage());
         }
         if (newUserBindingResult.hasErrors()) {
-            return "/admin/user/create";
+            return "admin/user/create";
         }
         // relative path: absolute path
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
@@ -114,7 +114,7 @@ public class UserController {
 
         model.addAttribute("id", id);
         model.addAttribute("newUser", new User());
-        return "/admin/user/delete";
+        return "admin/user/delete";
     }
 
     @PostMapping("/admin/user/delete") // GET
