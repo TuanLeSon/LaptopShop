@@ -17,6 +17,7 @@ import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
 import vn.hoidanit.laptopshop.service.ProductService;
 import vn.hoidanit.laptopshop.service.UserService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomePageController {
@@ -78,4 +79,10 @@ public class HomePageController {
         model.addAttribute("registerUser", new RegisterDTO());
         return "client/auth/login";
     }
+
+    @GetMapping("/access-deny")
+    public String getDenyPage(Model model) {
+        return "client/auth/deny";
+    }
+
 }
