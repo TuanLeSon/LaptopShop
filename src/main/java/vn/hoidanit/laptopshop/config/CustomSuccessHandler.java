@@ -36,6 +36,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     }
 
     protected void clearAuthenticationAttributes(HttpServletRequest request) {
+        // nếu request đã tồn tại 1 session, nó sẽ sử dụng lại session đó mà ko tạo mới
         HttpSession session = request.getSession(false);
         if (session == null) {
             return;
@@ -54,6 +55,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         }
 
         redirectStrategy.sendRedirect(request, response, targetUrl);
+        // dọn dẹp phần session
         clearAuthenticationAttributes(request);
     }
 
