@@ -29,6 +29,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                 user.getPassword(),
                 // tạo array chỉ có 1 phần tử
                 // SimpleGrantedAuthority sẽ gán role
+                // không nên set session ở đây vì chưa hề biết người dùng đã đăng nhập thành
+                // công hay chưa
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName())));
 
     }

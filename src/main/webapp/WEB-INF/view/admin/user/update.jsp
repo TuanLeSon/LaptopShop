@@ -18,7 +18,7 @@
           $(document).ready(() => {
 
             const avatarFile = $("#avatarFile");
-            const orgImage = "${newUser.image}"
+            const orgImage = "${newUser.avatar}"
             if (orgImage) {
               const urlImage = "/images/avatar/" + orgImage;
               $("#avatarPreview").attr("src", imgURL);
