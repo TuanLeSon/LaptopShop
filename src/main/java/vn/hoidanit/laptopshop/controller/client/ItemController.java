@@ -1,8 +1,7 @@
 package vn.hoidanit.laptopshop.controller.client;
 
-import java.util.List;
+import java.util.*;
 
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +42,14 @@ public class ItemController {
         return "redirect:/";
     }
 
+    @PostMapping("/delete-cart-product/{id}")
+    public String deleteProductFromCart(@PathVariable long id, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        this.productService.handleDeleteCartDetail(id, session);
+
+        return "redirect:/cart";
+    }
+
     @GetMapping("/cart")
     public String getCartPape(Model model, HttpServletRequest request) {
         User currentUser = new User();
@@ -51,7 +58,8 @@ public class ItemController {
         currentUser.setId(id);
         // vì user_id là join column nên chỉ cần map thông tin id là đủ
         Cart cart = this.productService.fetchByUser(currentUser);
-        List<CartDetail> cartDetails = cart.getCartDetails();
+
+        List<CartDetail> cartDetails = cart == null ? new ArrayList<>() : cart.getCartDetails();
 
         double totalPrice = 0;
         for (CartDetail cd : cartDetails) {

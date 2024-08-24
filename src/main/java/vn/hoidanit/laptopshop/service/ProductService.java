@@ -83,13 +83,25 @@ public class ProductService {
         }
     }
 
-    // public List<CartDetail> findCartDetails(HttpSession session) {
-    // String email = (String) session.getAttribute("email");
-    // User user = this.userService.getUserByEmail(email);
-    // Cart cart = this.cartRepository.findByUser(user);
-    // List<CartDetail> cartDetails = cart.getCartDetails();
-    // return cartDetails;
-    // }
+    public void handleDeleteCartDetail(long cartDetailId, HttpSession session) {
+
+        CartDetail currentCartDetail = this.cartDetailRepository.findById(cartDetailId).get();
+        if (currentCartDetail != null) {
+            Cart cart = currentCartDetail.getCart();
+            this.cartDetailRepository.deleteById(cartDetailId);
+            int s = cart.getSum();
+            if (s > 1) {
+                cart.setSum(s - 1);
+                this.cartRepository.save(cart);
+                session.setAttribute("sum", s);
+            } else {
+                this.cartRepository.delete(cart);
+                session.setAttribute("sum", 0);
+            }
+
+        }
+
+    }
 
     public void deleteAProduct(long id) {
         this.productRepository.deleteById(id);
