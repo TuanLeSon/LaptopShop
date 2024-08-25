@@ -87,20 +87,31 @@ public class ProductService {
 
         CartDetail currentCartDetail = this.cartDetailRepository.findById(cartDetailId).get();
         if (currentCartDetail != null) {
-            Cart cart = currentCartDetail.getCart();
+            Cart currentCart = currentCartDetail.getCart();
             this.cartDetailRepository.deleteById(cartDetailId);
-            int s = cart.getSum();
+            int s = currentCart.getSum();
             if (s > 1) {
-                cart.setSum(s - 1);
-                this.cartRepository.save(cart);
+                currentCart.setSum(s - 1);
+                this.cartRepository.save(currentCart);
                 session.setAttribute("sum", s);
             } else {
-                this.cartRepository.delete(cart);
+                this.cartRepository.deleteById(currentCart.getId());
                 session.setAttribute("sum", 0);
             }
 
         }
 
+    }
+
+    public void handleUpdateCartBeforeCheckout(List<CartDetail> cartDetails) {
+        for (CartDetail cartDetail : cartDetails) {
+            Optional<CartDetail> cdOptional = this.cartDetailRepository.findById(cartDetail.getId());
+            if (cdOptional.isPresent()) {
+                CartDetail currentCartDetail = cdOptional.get();
+                currentCartDetail.setQuantity(cartDetail.getQuantity());
+                this.cartDetailRepository.save(currentCartDetail);
+            }
+        }
     }
 
     public void deleteAProduct(long id) {
