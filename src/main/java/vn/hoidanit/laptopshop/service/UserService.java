@@ -1,5 +1,7 @@
 package vn.hoidanit.laptopshop.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
@@ -39,9 +41,9 @@ public class UserService {
         return this.userRepository.findById(id);
     }
 
-    // public List<User> getAllUsersByEmail(String email) {
-    // return this.userRepository.findByEmail(email);
-    // }
+    public Page<User> fetchAllUsers(Pageable page) {
+        return this.userRepository.findAll(page);
+    }
 
     public User handleSaveUser(User user) {
         return this.userRepository.save(user);// trả kết quả thành công từ database về

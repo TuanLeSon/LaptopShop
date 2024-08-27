@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.Product;
-
+import java.util.Optional;
 import vn.hoidanit.laptopshop.service.ProductService;
 import vn.hoidanit.laptopshop.service.UploadService;
 
@@ -35,8 +35,17 @@ public class ProductController {
 
     @GetMapping("/admin/product")
     public String getProduct(Model model,
-            @RequestParam("page") int page) {
-        Pageable pageable = PageRequest.of(page - 1, 2);
+            @RequestParam("page") Optional<String> pageOptional) {
+        int page = 1;
+        try {
+            if (pageOptional.isPresent()) {
+                page = Integer.parseInt(pageOptional.get());
+            } else {
+            }
+        } catch (Exception e) {
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, 5);
         Page<Product> prs = this.productService.fetchProducts(pageable);
         List<Product> listProducts = prs.getContent();
         model.addAttribute("products", listProducts);

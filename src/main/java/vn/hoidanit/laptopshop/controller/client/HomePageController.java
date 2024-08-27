@@ -2,6 +2,7 @@ package vn.hoidanit.laptopshop.controller.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -43,20 +45,45 @@ public class HomePageController {
     }
 
     @GetMapping("/product")
-    public String getHomePage(Model model) {
-        Pageable pageable = PageRequest.of(0, 10);
+    public String getHomePage(Model model,
+            @RequestParam("page") Optional<String> pageOptional) {
+        int page = 1;
+        try {
+            if (pageOptional.isPresent()) {
+                page = Integer.parseInt(pageOptional.get());
+            } else {
+            }
+        } catch (Exception e) {
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, 8);
         Page<Product> prs = this.productService.fetchProducts(pageable);
-        List<Product> products = prs.getContent();
-        model.addAttribute("products", products);
+        List<Product> listProducts = prs.getContent();
+        model.addAttribute("products", listProducts);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", prs.getTotalPages());
         return "client/homepage/show";
     }
 
     @GetMapping("/")
-    public String getHome(Model model) {
-        Pageable pageable = PageRequest.of(0, 10);
+    public String getHome(Model model,
+            @RequestParam("page") Optional<String> pageOptional) {
+        int page = 1;
+        try {
+            if (pageOptional.isPresent()) {
+                page = Integer.parseInt(pageOptional.get());
+            } else {
+            }
+        } catch (Exception e) {
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, 8);
         Page<Product> prs = this.productService.fetchProducts(pageable);
-        List<Product> products = prs.getContent();
-        model.addAttribute("products", products);
+        List<Product> listProducts = prs.getContent();
+        model.addAttribute("products", listProducts);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", prs.getTotalPages());
+
         // HttpSession session = request.getSession(false);
 
         return "client/homepage/show";

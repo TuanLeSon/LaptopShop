@@ -127,8 +127,20 @@
         $('#videoModal').on('hide.bs.modal', function (e) {
             $("#video").attr('src', $videoSrc);
         })
-    });
 
+        //add active class to header
+        const navElement = $("#navbarCollapse");
+        const currentUrl = window.location.pathname;
+        navElement.find('a.nav-link').each(function () {
+            const link = $(this);//get the current link in the loop
+            const href = link.attr('href'); //get the href attribute
+            if (href === currentUrl) {
+                link.addClass('active'); // add 'active' class
+            } else {
+                link.removeClass('active');
+            }
+        });
+    });
 
 
     // Product Quantity
@@ -223,4 +235,3 @@
     }
 
 })(jQuery);
-
