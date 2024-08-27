@@ -55,7 +55,7 @@
 
                                             <hr />
                                             <form:form method="post" enctype="multipart/form-data"
-                                                action="/admin/product/create" modelAttribute="newProduct" class="row">
+                                                action="/admin/product/update" modelAttribute="newProduct" class="row">
                                                 <div class="mb-3" style="display: none;">
                                                     <label class="form-label">Id:</label>
                                                     <form:input type="number" class="form-control" path="id" />
@@ -148,7 +148,7 @@
                                                         id="avatarPreview1" /> -->
                                                 </div>
                                                 <div class="col-12 mb-5">
-                                                    <button type="submit" class="btn btn-primary">Create</button>
+                                                    <button type="submit" class="btn btn-primary">Update</button>
                                                 </div>
                                             </form:form>
                                         </div>

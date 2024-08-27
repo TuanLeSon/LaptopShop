@@ -27,6 +27,13 @@ public class Order {
 
     private String status;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> orderDetails;
+
     public String getReceiverName() {
         return receiverName;
     }
@@ -74,13 +81,6 @@ public class Order {
     public void setOrderDetails(List<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToMany(mappedBy = "order")
-    List<OrderDetail> orderDetails;
 
     public long getId() {
         return id;

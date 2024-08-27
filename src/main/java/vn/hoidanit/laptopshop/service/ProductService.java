@@ -51,7 +51,7 @@ public class ProductService {
 
     }
 
-    public void handleAddProductToCart(String email, long productId, HttpSession session) {
+    public void handleAddProductToCart(String email, long productId, HttpSession session, long quantity) {
 
         // lưu cart_detail
         User user = this.userService.getUserByEmail(email);
@@ -76,7 +76,7 @@ public class ProductService {
                     cd.setCart(cart);
                     cd.setProduct(realProduct);
                     cd.setPrice(realProduct.getPrice());
-                    cd.setQuantity(1);
+                    cd.setQuantity(quantity);
                     this.cartDetailRepository.save(cd);
                     // update cart sum
                     int s = cart.getSum() + 1;
@@ -84,7 +84,7 @@ public class ProductService {
                     this.cartRepository.save(cart);
                     session.setAttribute("sum", s);
                 } else {
-                    oldDetail.setQuantity(oldDetail.getQuantity() + 1);
+                    oldDetail.setQuantity(oldDetail.getQuantity() + quantity);
                     this.cartDetailRepository.save(oldDetail);
                 }
 
@@ -140,14 +140,6 @@ public class ProductService {
             User user, HttpSession session,
             String receiverName, String receiverAddress, String receiverPhone) {
 
-        // create order
-        Order order = new Order();
-        order.setUser(user);
-        order.setReceiverName(receiverName);
-        order.setReceiverAddress(receiverAddress);
-        order.setReceiverPhone(receiverPhone);
-        order = this.orderRepository.save(order);
-
         // create orderDetail
 
         // step 1: get cart by user
@@ -156,6 +148,18 @@ public class ProductService {
             List<CartDetail> cartDetails = cart.getCartDetails();
 
             if (cartDetails != null) {
+                Order order = new Order();
+                order.setUser(user);
+                order.setReceiverName(receiverName);
+                order.setReceiverAddress(receiverAddress);
+                order.setReceiverPhone(receiverPhone);
+                order.setStatus("PENDING");
+                double sum = 0;
+                for (CartDetail cd : cartDetails) {
+                    sum += cd.getPrice();
+                }
+                order.setTotalPrice(sum);
+                order = this.orderRepository.save(order);
                 for (CartDetail cd : cartDetails) {
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.setOrder(order);
