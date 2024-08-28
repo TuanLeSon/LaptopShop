@@ -19,6 +19,7 @@ import vn.hoidanit.laptopshop.repository.CartRepository;
 import vn.hoidanit.laptopshop.repository.OrderDetailRepository;
 import vn.hoidanit.laptopshop.repository.OrderRepository;
 import vn.hoidanit.laptopshop.repository.ProductRepository;
+import vn.hoidanit.laptopshop.service.specification.ProductSpecs;
 
 @Service
 public class ProductService {
@@ -185,4 +186,9 @@ public class ProductService {
         }
 
     }
+
+    public Page<Product> fetchProductsWithSpec(Pageable page, String name) {
+        return this.productRepository.findAll(ProductSpecs.nameLike(name), page);
+    }
+
 }
