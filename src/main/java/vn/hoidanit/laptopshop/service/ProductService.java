@@ -15,6 +15,7 @@ import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.domain.OrderDetail;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.domain.dto.ProductCriteriaDTO;
 import vn.hoidanit.laptopshop.repository.CartDetailRepository;
 import vn.hoidanit.laptopshop.repository.CartRepository;
 import vn.hoidanit.laptopshop.repository.OrderDetailRepository;
@@ -188,45 +189,62 @@ public class ProductService {
 
     }
 
+    public Page<Product> fetchProductsWithSpec(Pageable page, ProductCriteriaDTO productCriteriaDTO) {
+
+        Specification<Product> combinedSpecs = Specification.where(null);
+
+        if (productCriteriaDTO.getTarget() != null && productCriteriaDTO.getTarget().isPresent()) {
+            Specification<Product> currentSpecs = ProductSpecs.matchListTarget(productCriteriaDTO.getTarget().get());
+            combinedSpecs = combinedSpecs.and(currentSpecs);
+        }
+
+        if (productCriteriaDTO.getFactory() != null && productCriteriaDTO.getFactory().isPresent()) {
+            Specification<Product> currentSpecs = ProductSpecs.matchListFactory(productCriteriaDTO.getFactory().get());
+            combinedSpecs = combinedSpecs.and(currentSpecs);
+        }
+
+        if (productCriteriaDTO.getPrice() != null && productCriteriaDTO.getPrice().isPresent()) {
+            Specification<Product> currentSpecs = buildPriceSpecification(productCriteriaDTO.getPrice().get());
+            combinedSpecs = combinedSpecs.and(currentSpecs);
+        }
+
+        return this.productRepository.findAll(combinedSpecs, page);
+    }
+
     // public Page<Product> fetchProductsWithSpec(Pageable page, double minPrice) {
     // return this.productRepository.findAll(
     // ProductSpecs.minPrice(minPrice),
     // page);
     // }
 
-    public Page<Product> fetchProductsWithSpec(Pageable page, List<String> price) {
-        Specification<Product> combinedSpec = (root, query, criteriaBuilder) -> criteriaBuilder.disjunction();
-        int count = 0;
+    public Specification<Product> buildPriceSpecification(List<String> price) {
+        // initial Specification
+        Specification<Product> combinedSpec = Specification.where(null);
         for (String p : price) {
             double min = 0;
-            double max = 0;
+            double max = Double.MAX_VALUE;
             switch (p) {
+                case "duoi-10-trieu":
+                    min = 0;
+                    max = 10000000;
                 case "10-toi-15-trieu":
                     min = 10000000;
                     max = 15000000;
-                    count++;
                     break;
                 case "10-toi-20-trieu":
                     min = 15000000;
                     max = 20000000;
-                    count++;
                     break;
-                case "20-toi-30-trieu":
+                case "tren-20-trieu":
                     min = 20000000;
-                    max = 30000000;
-                    count++;
+                    max = Double.MAX_VALUE;
                     break;
             }
 
-            if (min != 0 && max != 0) {
-                Specification<Product> rangeSpec = ProductSpecs.matchMultiplePrice(min, max);
-                combinedSpec = combinedSpec.or(rangeSpec);
-            }
+            Specification<Product> rangeSpec = ProductSpecs.matchMultiplePrice(min, max);
+            combinedSpec = combinedSpec.or(rangeSpec);
         }
-
-        if (count == 0) {
-            return this.productRepository.findAll(page);
-        }
-        return this.productRepository.findAll(combinedSpec, page);
+        return combinedSpec;
     }
+
 }
