@@ -135,7 +135,14 @@ public class ItemController {
     @GetMapping("/products")
     public String getProduct(Model model,
             @RequestParam("page") Optional<String> pageOptional,
-            @RequestParam("name") Optional<String> nameOptional) {
+            @RequestParam("name") Optional<String> nameOptional,
+            @RequestParam("factory") Optional<String> factoryOptional,
+            @RequestParam("target") Optional<String> targetOptional,
+            @RequestParam("price") Optional<String> priceOptional,
+            @RequestParam("min-price") Optional<String> minOptional,
+            @RequestParam("max-price") Optional<String> maxOptional
+
+    ) {
         int page = 1;
         try {
             if (pageOptional.isPresent()) {
@@ -144,9 +151,18 @@ public class ItemController {
             }
         } catch (Exception e) {
         }
-        String name = nameOptional.get();
-        Pageable pageable = PageRequest.of(page - 1, 6);
-        Page<Product> prs = this.productService.fetchProducts(pageable, name);
+        String name = nameOptional.isPresent() ? nameOptional.get() : "";
+        // String factory = factoryOptional.isPresent() ? factoryOptional.get() : "";
+        // List<String> factory = Arrays.asList(factoryOptional.get().split(","));
+        String target = targetOptional.isPresent() ? targetOptional.get() : "";
+        List<String> price = Arrays.asList(priceOptional.get().split(","));
+        // String price = priceOptional.isPresent() ? priceOptional.get() : "";
+
+        double minPrice = minOptional.isPresent() ? Double.parseDouble(minOptional.get()) : 0;
+        double maxPrice = maxOptional.isPresent() ? Double.parseDouble(maxOptional.get()) : Double.MAX_VALUE;
+
+        Pageable pageable = PageRequest.of(page - 1, 60);
+        Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, price);
         List<Product> listProducts = prs.getContent();
         model.addAttribute("products", listProducts);
         model.addAttribute("currentPage", page);
