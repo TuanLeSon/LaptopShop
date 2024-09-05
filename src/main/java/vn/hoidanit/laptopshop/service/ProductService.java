@@ -227,6 +227,7 @@ public class ProductService {
                 case "duoi-10-trieu":
                     min = 0;
                     max = 10000000;
+                    break;
                 case "10-toi-15-trieu":
                     min = 10000000;
                     max = 15000000;
