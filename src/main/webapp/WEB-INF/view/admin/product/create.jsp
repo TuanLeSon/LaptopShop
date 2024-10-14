@@ -47,8 +47,6 @@
 
                                                 <h1 class="mt-4">Create a product</h1>
 
-                                                <!-- 
-                      <div>create user</div> -->
                                             </div>
                                             <hr />
                                             <form:form method="post" enctype="multipart/form-data"

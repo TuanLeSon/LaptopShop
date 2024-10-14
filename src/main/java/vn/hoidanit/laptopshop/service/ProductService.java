@@ -53,11 +53,9 @@ public class ProductService {
 
     public Product handleSaveProduct(Product product) {
         return this.productRepository.save(product);// trả kết quả thành công từ database về
-
     }
 
     public void handleAddProductToCart(String email, long productId, HttpSession session, long quantity) {
-
         // lưu cart_detail
         User user = this.userService.getUserByEmail(email);
         if (user != null) {

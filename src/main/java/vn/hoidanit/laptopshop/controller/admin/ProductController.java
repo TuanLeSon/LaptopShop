@@ -40,7 +40,6 @@ public class ProductController {
         try {
             if (pageOptional.isPresent()) {
                 page = Integer.parseInt(pageOptional.get());
-            } else {
             }
         } catch (Exception e) {
         }
