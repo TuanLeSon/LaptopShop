@@ -18,26 +18,24 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotNull
-    @NotEmpty(message = "Tên sản phẩm phải có tối thiểu 3 ký tự")
+    @NotEmpty(message = "Product's name must contain at least 3 characters")
     private String name;
     @NotNull
-    @DecimalMin(value = "0", inclusive = false, message = "Price phải lớn hơn 0")
+    @DecimalMin(value = "0", inclusive = false, message = "Price must be greater than 0")
     private double price;
     private String image;
     @NotNull
-    @NotEmpty(message = "detailDesc không được để trống")
+    @NotEmpty(message = "detailDesc can not be blank")
     @Column(columnDefinition = "MEDIUMTEXT")
     private String detailDesc;
     @NotNull
-    @NotEmpty(message = "shortDesc không được để trống")
+    @NotEmpty(message = "shortDesc can not be blank")
     private String shortDesc;
-    @Min(value = 1, message = "Số lượng cần lớn hơn hoặc bằng 1")
+    @Min(value = 1, message = "The quantity must be equal or greater than 1")
     private long quantity;
     private long sold;
     private String factory;
     private String target;
-    // @OneToMany(mappedBy = "product")
-    // List<OrderDetail> orderDetails;
 
     public long getId() {
         return id;

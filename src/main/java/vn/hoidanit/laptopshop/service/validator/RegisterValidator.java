@@ -7,7 +7,6 @@ import jakarta.validation.ConstraintValidatorContext;
 import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
 import vn.hoidanit.laptopshop.service.UserService;
 
-// @Service giúp tự động DI
 @Service
 public class RegisterValidator implements ConstraintValidator<RegisterChecked, RegisterDTO> {
     private final UserService userService;

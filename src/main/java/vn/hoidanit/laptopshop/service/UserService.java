@@ -46,7 +46,7 @@ public class UserService {
     }
 
     public User handleSaveUser(User user) {
-        return this.userRepository.save(user);// trả kết quả thành công từ database về
+        return this.userRepository.save(user);
 
     }
 

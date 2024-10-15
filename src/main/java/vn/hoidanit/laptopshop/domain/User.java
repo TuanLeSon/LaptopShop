@@ -23,14 +23,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Email(message = "Email không hợp lệ")
+    @Email(message = "Invalid Email")
     private String email;
     @NotNull
-    @Size(min = 3, message = "Password phải có tối thiểu 3 ký tự")
-    @StrongPassword(message = "Password phải có 8 ký tự, viết hoa...")
+    @Size(min = 3, message = "Password must contain 3 characters at least")
+    @StrongPassword(message = "Weak password")
     private String password;
     @NotNull
-    @Size(min = 3, message = "Fullname phải có tối thiểu 3 ký tự")
+    @Size(min = 3, message = "Fullname must contain 3 characters at least")
     private String fullName;
 
     private String address;
@@ -38,7 +38,7 @@ public class User {
     private String phone;
 
     private String avatar;
-    // User many ->to one ->role
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;

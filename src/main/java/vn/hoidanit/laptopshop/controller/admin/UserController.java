@@ -22,10 +22,8 @@ import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.UploadService;
 import vn.hoidanit.laptopshop.service.UserService;
 
-// mô hình mvc
 @Controller
 public class UserController {
-    // DI: dependency injection
     private final UserService userService;
     private final UploadService uploadService;
     private final PasswordEncoder passwordEncoder;
@@ -35,7 +33,6 @@ public class UserController {
         this.userService = userService;
         this.uploadService = uploadService;
         this.passwordEncoder = passwordEncoder;
-
     }
 
     @GetMapping("/admin/user")
@@ -45,7 +42,6 @@ public class UserController {
         try {
             if (pageOptional.isPresent()) {
                 page = Integer.parseInt(pageOptional.get());
-            } else {
             }
         } catch (Exception e) {
         }
@@ -65,7 +61,7 @@ public class UserController {
         return "admin/user/detail";
     }
 
-    @GetMapping("/admin/user/create") // GET
+    @GetMapping("/admin/user/create")
     public String getCreateUserPage(Model model) {
         model.addAttribute("newUser", new User());
         return "admin/user/create";
@@ -73,7 +69,7 @@ public class UserController {
 
     @PostMapping("/admin/user/create")
     public String createUserPage(Model model,
-            @ModelAttribute("newUser") @Valid User hoidanit,
+            @ModelAttribute("newUser") @Valid User newUser,
             BindingResult newUserBindingResult,
             @RequestParam("userFile") MultipartFile file) {
         // Validate
@@ -87,12 +83,12 @@ public class UserController {
         // relative path: absolute path
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
         // getRealPath trả ra thư mục web app
-        String hashPassword = this.passwordEncoder.encode(hoidanit.getPassword());
+        String hashPassword = this.passwordEncoder.encode(newUser.getPassword());
         //
-        hoidanit.setAvatar(avatar);
-        hoidanit.setPassword(hashPassword);
-        hoidanit.setRole(this.userService.getRoleByName(hoidanit.getRole().getName()));
-        this.userService.handleSaveUser(hoidanit);
+        newUser.setAvatar(avatar);
+        newUser.setPassword(hashPassword);
+        newUser.setRole(this.userService.getRoleByName(newUser.getRole().getName()));
+        this.userService.handleSaveUser(newUser);
         return "redirect:/admin/user";
     }
 

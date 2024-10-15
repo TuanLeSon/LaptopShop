@@ -6,15 +6,15 @@ import vn.hoidanit.laptopshop.service.validator.RegisterChecked;
 
 @RegisterChecked
 public class RegisterDTO {
-    @Size(min = 3, message = "First phải có tối thiểu 3 ký tự")
+    @Size(min = 3, message = "Firstname must contain at least 3 characters")
     private String firstName;
     private String lastName;
-    @Size(min = 3, message = "Email không hợp lệ")
-    @Email(message = "Email không hợp lệ")
+    @Size(min = 3, message = "Invalid Email")
+    @Email(message = "Invalid Email")
     private String email;
-    @Size(min = 3, message = "Password phải có tối thiểu 3 ký tự")
+    @Size(min = 3, message = "Password must contain at least 3 characters")
     private String password;
-    @Size(min = 3, message = "ConfirmPassword phải có tối thiểu 3 ký tự")
+    @Size(min = 3, message = "ConfirmPassword must contain at least 3 characters")
     private String confirmPassword;
 
     public String getFirstName() {

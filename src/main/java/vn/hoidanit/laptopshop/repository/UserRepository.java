@@ -8,9 +8,9 @@ import vn.hoidanit.laptopshop.domain.User;
 //crud: create, read, update, delete
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User save(User hoidanit);
+    User save(User user);
 
-    // chỉ trả về 1 user
+    // return only one user
     User findByEmail(String email);
 
     User findById(long id);
