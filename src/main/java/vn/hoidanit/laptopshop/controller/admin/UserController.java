@@ -84,7 +84,6 @@ public class UserController {
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
         // getRealPath trả ra thư mục web app
         String hashPassword = this.passwordEncoder.encode(newUser.getPassword());
-        //
         newUser.setAvatar(avatar);
         newUser.setPassword(hashPassword);
         newUser.setRole(this.userService.getRoleByName(newUser.getRole().getName()));

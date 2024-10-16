@@ -25,17 +25,14 @@ public class UploadService {
         String rootPath = this.servletContext.getRealPath("/resources/images");
         String finalName = "";
         try {
-
             byte[] bytes = file.getBytes();
             // File.separator là "/"
             File dir = new File(rootPath + File.separator + targetFolder);
             if (!dir.exists())
                 dir.mkdirs();
-
             // Create the file on server
             finalName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
             File serverFile = new File(dir.getAbsolutePath() + File.separator + finalName);
-
             BufferedOutputStream stream = new BufferedOutputStream(
                     new FileOutputStream(serverFile));
             stream.write(bytes);
